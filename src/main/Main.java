@@ -1,3 +1,14 @@
+/*
+Group Project : Smart Task Scheduler
+Members:
+FAYSAL ALIBRAHIM  ID: 2231165155
+KHALED ALMARJAN   ID: 2231119438
+OMAR   ALHAJRI    ID: 2231152612
+Course code & section: CCS 270-02A
+Supervised by Prof. Dr. Iyad Abu Doush
+ */
+
+
 public class Main {
     public static void main(String[] args) {
         // 1. Setup the example tasks
