@@ -9,53 +9,137 @@ Supervised by Prof. Dr. Iyad Abu Doush
  */
 
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        // 1. Setup the example tasks
-        Task t1 = new Task("Task 1", "High", 10, 5);
-        Task t2 = new Task("Task 2", "Medium", 15, 3);
-        Task t3 = new Task("Task 3", "Low", 20, 2);
 
-        // 2. Output SJF Order
-        System.out.println("Execution order (SJF):");
-        SmartHeap sjfHeap = new SmartHeap("SJF");
-        sjfHeap.insert(t1); sjfHeap.insert(t2); sjfHeap.insert(t3);
-        while (!sjfHeap.isEmpty()) {
-            System.out.print(sjfHeap.extractNext().name + (sjfHeap.isEmpty() ? "\n" : " -> "));
-        }
+        Scanner input = new Scanner(System.in);
 
-        // 3. Output EDF Order
-        System.out.println("Execution order (EDF):");
-        SmartHeap edfHeap = new SmartHeap("EDF");
-        edfHeap.insert(t1); edfHeap.insert(t2); edfHeap.insert(t3);
-        while (!edfHeap.isEmpty()) {
-            System.out.print(edfHeap.extractNext().name + (edfHeap.isEmpty() ? "\n" : " -> "));
-        }
+        while (true) {
 
-        // 4. Run the Empirical Testing (5 Trials)
-        System.out.println("\n--- Empirical Time Complexity Analysis ---");
-        int[] sizes = {100, 1000, 5000};
-        System.out.printf("%-10s | %-15s | %-15s\n", "Input Size", "Heap Avg (ns)", "Array Avg (ns)");
+            System.out.println("\n=== Smart Task Scheduler ===");
+            System.out.println("1. Run Predefined Example");
+            System.out.println("2. Enter Your Own Tasks");
+            System.out.println("3. Exit");
+            System.out.print("Choose option: ");
 
-        for (int size : sizes) {
-            long totalHeapTime = 0, totalArrayTime = 0;
+            int choice = input.nextInt();
 
-            for (int trial = 0; trial < 5; trial++) {
-                SmartHeap heap = new SmartHeap("SJF");
-                SortedArray array = new SortedArray("SJF");
-
-                // Time the Heap
-                long startHeap = System.nanoTime();
-                for (int i = 0; i < size; i++) heap.insert(new Task("T", "Low", 10, 5));
-                totalHeapTime += (System.nanoTime() - startHeap);
-
-                // Time the Array
-                long startArray = System.nanoTime();
-                for (int i = 0; i < size; i++) array.insert(new Task("T", "Low", 10, 5));
-                totalArrayTime += (System.nanoTime() - startArray);
+            // Exit
+            if (choice == 3) {
+                System.out.println("Exiting program...");
+                break;
             }
 
-            System.out.printf("%-10d | %-15d | %-15d\n", size, totalHeapTime / 5, totalArrayTime / 5);
+            Task[] tasks;
+
+            // User Input
+            if (choice == 2) {
+                System.out.print("Enter number of tasks: ");
+                int n = input.nextInt();
+                tasks = new Task[n];
+
+                for (int i = 0; i < n; i++) {
+                    System.out.println("\nTask " + (i + 1));
+
+                    System.out.print("Name: ");
+                    String name = input.next();
+
+                    System.out.print("Priority: ");
+                    String priority = input.next();
+
+                    System.out.print("Deadline: ");
+                    int deadline = input.nextInt();
+
+                    System.out.print("Duration: ");
+                    int duration = input.nextInt();
+
+                    tasks[i] = new Task(name, priority, deadline, duration);
+                }
+
+            } else {
+                tasks = new Task[]{
+                        new Task("Task1", "High", 10, 5),
+                        new Task("Task2", "Medium", 15, 3),
+                        new Task("Task3", "Low", 20, 2)
+                };
+            }
+
+            // ========== SJF ==========
+            System.out.println("\n=== SJF Scheduling (Shortest Job First) ===");
+            SmartHeap sjfHeap = new SmartHeap("SJF");
+
+            for (Task t : tasks) sjfHeap.insert(t);
+
+            while (!sjfHeap.isEmpty()) {
+                System.out.print(sjfHeap.extractNext().name + " -> ");
+            }
+            System.out.println("END");
+
+            // ========== EDF ==========
+            System.out.println("\n=== EDF Scheduling (Earliest Deadline First) ===");
+            SmartHeap edfHeap = new SmartHeap("EDF");
+
+            for (Task t : tasks) edfHeap.insert(t);
+
+            while (!edfHeap.isEmpty()) {
+                System.out.print(edfHeap.extractNext().name + " -> ");
+            }
+            System.out.println("END");
+
+            // ========== Experiment ==========
+            System.out.println("\n=== Empirical Time Complexity Analysis ===");
+            System.out.println("We measure insertion time for Heap vs Sorted Array\n");
+
+            int[] sizes = {100, 1000, 5000};
+
+            System.out.printf("%-10s | %-20s | %-20s\n",
+                    "Size", "Heap Avg Time (ns)", "Array Avg Time (ns)");
+
+            for (int size : sizes) {
+
+                long totalHeap = 0;
+                long totalArray = 0;
+
+                for (int trial = 0; trial < 5; trial++) {
+
+                    SmartHeap heap = new SmartHeap("SJF");
+                    SortedArray array = new SortedArray("SJF");
+
+                    // Heap timing
+                    long startHeap = System.nanoTime();
+                    for (int i = 0; i < size; i++) {
+                        heap.insert(new Task("T", "Low", 10, 5));
+                    }
+                    long endHeap = System.nanoTime();
+
+                    // Array timing
+                    long startArray = System.nanoTime();
+                    for (int i = 0; i < size; i++) {
+                        array.insert(new Task("T", "Low", 10, 5));
+                    }
+                    long endArray = System.nanoTime();
+
+                    totalHeap += (endHeap - startHeap);
+                    totalArray += (endArray - startArray);
+                }
+
+                long avgHeap = totalHeap / 5;
+                long avgArray = totalArray / 5;
+
+                System.out.printf("%-10d | %-20d | %-20d\n",
+                        size, avgHeap, avgArray);
+            }
+
+            // ========== Explanation ==========
+            System.out.println("\nNOTE:");
+            System.out.println("- Heap insertion complexity: O(log n)");
+            System.out.println("- Sorted Array insertion complexity: O(n)");
+
+
         }
     }
+
 }
+
