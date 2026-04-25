@@ -17,6 +17,14 @@ public class Task {
     int deadline;
     int duration; // Execution time
 
+    /**
+     * Constructs a new Task object with the specified scheduling attributes.
+     *
+     * @param name          The unique string identifier for the task.
+     * @param priorityLevel The general categorization of the task's importance (e.g., High, Medium, Low).
+     * @param deadline      The strict time limit for task completion (used by the EDF algorithm).
+     * @param duration      The total execution time required (used by the SJF algorithm).
+     */
     public Task(String name, String priorityLevel, int deadline, int duration) {
         this.name = name;
         this.priorityLevel = priorityLevel;

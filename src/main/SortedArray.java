@@ -53,7 +53,7 @@ public class SortedArray {
     }
     /**
      * Dynamically evaluates the urgency between two tasks based on the active
-     * scheduling strategy (SJF or EDF).
+     * scheduling strat4egy (SJF or EDF).
      *
      * @param t1 The first Task to compare.
      * @param t2 The second Task to compare.
