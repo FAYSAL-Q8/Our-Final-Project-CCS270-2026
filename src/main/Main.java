@@ -43,8 +43,8 @@ public class Main {
                 System.out.println("\n=== Empirical Time Complexity Analysis ===");
                 System.out.println("We measure insertion time for Heap vs Sorted Array\n");
 
-                int[] sizes = {100, 1000, 5000, 10000, 50000};
-
+                int[] sizes = {100, 1000, 5000, 10000, 20000};
+               // int[] sizes = {10000, 20000, 30000, 40000, 50000, 75000, 100000}; used for report
                 System.out.printf("%-10s | %-20s | %-20s\n",
                         "Size", "Heap Avg Time (ns)", "Array Avg Time (ns)");
 
