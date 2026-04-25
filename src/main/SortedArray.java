@@ -9,7 +9,9 @@ Supervised by Prof. Dr. Iyad Abu Doush
  */
 
 import java.util.ArrayList;
-
+/**
+ * Sorted array implementation used for comparison with heap.
+ */
 public class SortedArray {
     private ArrayList<Task> list = new ArrayList<>();
     private String strategy;
