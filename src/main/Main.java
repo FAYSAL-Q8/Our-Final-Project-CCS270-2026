@@ -10,7 +10,10 @@ Supervised by Prof. Dr. Iyad Abu Doush
 
 import java.util.Scanner;
 import java.util.Random;
-
+/**
+ * Main scheduler that selects and executes tasks
+ * using SJF or EDF algorithms.
+ */
 public class Main {
     public static void main(String[] args) {
 
