@@ -9,7 +9,10 @@ Supervised by Prof. Dr. Iyad Abu Doush
  */
 
 import java.util.ArrayList;
-
+/**
+ * Min-Heap implementation used for task scheduling.
+ * Supports efficient task selection in O(log n).
+ */
 public class SmartHeap {
     private ArrayList<Task> heap = new ArrayList<>();
     private String strategy; // "SJF" or "EDF"
