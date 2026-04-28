@@ -109,7 +109,10 @@ public class SmartHeap {
  * @return true if t1 should come before t2
  */
     private boolean isMoreUrgent(Task t1, Task t2) {
-        if (strategy.equals("SJF")) return t1.duration < t2.duration;
+        // If using SJF, compare based on duration (shorter job = higher priority)
+        if (strategy.equals("SJF"))
+            return t1.duration < t2.duration;
+        // Otherwise, default to EDF (earlier deadline = higher priority)
         return t1.deadline < t2.deadline; // Default to EDF
     }
 
@@ -120,13 +123,16 @@ public class SmartHeap {
  * @param j index of the second task
  */
     private void swap(int i, int j) {
+        // Store the first task temporarily
         Task temp = heap.get(i);
+        // Move the second task into the first position
         heap.set(i, heap.get(j));
+        // Place the first task into the second position
         heap.set(j, temp);
     }
 
  /**
- * Checks whether the heap has no tasks.
+ * Checks whether the heap has no tasks(is empty).
  *
  * @return true if the heap is empty, otherwise false
  */

@@ -13,11 +13,13 @@ import java.util.Random;
 /**
  * Main scheduler that selects and executes tasks
  * using SJF or EDF algorithms.
+ * It allows the user to test different scheduling strategies (SJF & EDF),
  */
 public class Main {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
+        // Random generator used in the empirical experiment
         Random rand = new Random();
 
         while (true) {
@@ -29,6 +31,7 @@ public class Main {
             System.out.println("4. Exit");
             System.out.print("Choose option: ");
 
+            // Input validation
             while (!input.hasNextInt()) {
                 System.out.print("Invalid input. Choose option 1, 2, 3 or 4:");
                 input.next();
@@ -51,34 +54,38 @@ public class Main {
                 System.out.printf("%-10s | %-20s | %-20s\n",
                         "Size", "Heap Avg Time (ns)", "Array Avg Time (ns)");
 
+                // Loop through each input size
                 for (int size : sizes) {
 
                     long totalHeap = 0;
                     long totalArray = 0;
 
+                    // Repeat experiment multiple times
                     for (int trial = 0; trial < 5; trial++) {
 
                         SmartHeap heap = new SmartHeap("SJF");
                         SortedArray array = new SortedArray("SJF");
 
-                        // Heap timing
+                        // Measure heap insertion time
                         long startHeap = System.nanoTime();
                         for (int i = 0; i < size; i++) {
                             heap.insert(new Task("T", "Low", rand.nextInt(500), rand.nextInt(100)));
                         }
                         long endHeap = System.nanoTime();
 
-                        // Array timing
+                        // Measure sorted array insertion time
                         long startArray = System.nanoTime();
                         for (int i = 0; i < size; i++) {
                             array.insert(new Task("T", "Low", rand.nextInt(500), rand.nextInt(100)));
                         }
                         long endArray = System.nanoTime();
 
+                        // Accumulate total time
                         totalHeap += (endHeap - startHeap);
                         totalArray += (endArray - startArray);
                     }
 
+                    // Calculate average execution time
                     long avgHeap = totalHeap / 5;
                     long avgArray = totalArray / 5;
 
@@ -91,6 +98,7 @@ public class Main {
                 System.out.println("- Heap insertion complexity: O(log n)");
                 System.out.println("- Sorted Array insertion complexity: O(n)");
 
+                // Return to main menu after finishing experiment
                 continue;
             }
 
@@ -105,9 +113,11 @@ public class Main {
                     input.next();
                 }
                 int n = input.nextInt();
+                // Prevent zero or negative input
                 if (n <= 0) n = 1;
 
                 tasks = new Task[n];
+
 
                 for (int i = 0; i < n; i++) {
                     System.out.println("\nTask " + (i + 1));
@@ -127,26 +137,28 @@ public class Main {
                         System.out.print("Invalid input. Please strictly enter High, Medium, or Low: ");
                     }
 
+                    // Validate deadline input
                     System.out.print("Deadline: ");
-
                     while (!input.hasNextInt()) {
                         System.out.print("Invalid input. Please enter a number for Deadline: ");
                         input.next();
                     }
                     int deadline = input.nextInt();
 
+                    // Validate deadline input
                     System.out.print("Duration: ");
-
                     while (!input.hasNextInt()) {
                         System.out.print("Invalid input. Please enter a number for Duration: ");
                         input.next();
                     }
                     int duration = input.nextInt();
 
+                    // Create task object
                     tasks[i] = new Task(name, priority, deadline, duration);
                 }
 
             } else {
+                // Predefined Tasks
                 tasks = new Task[]{
                         new Task("Task1", "High", 10, 5),
                         new Task("Task2", "Medium", 15, 3),
@@ -156,10 +168,12 @@ public class Main {
 
             // ========== SJF ==========
             System.out.println("\n=== SJF Scheduling (Shortest Job First) ===");
+            // Using heap with SJF strategy
             SmartHeap sjfHeap = new SmartHeap("SJF");
 
             for (Task t : tasks) sjfHeap.insert(t);
 
+            // Extract tasks based on shortest duration
             while (!sjfHeap.isEmpty()) {
                 System.out.print(sjfHeap.extractNext().name + " -> ");
             }
@@ -167,10 +181,12 @@ public class Main {
 
             // ========== EDF ==========
             System.out.println("\n=== EDF Scheduling (Earliest Deadline First) ===");
+            // Using heap with EDF strategy
             SmartHeap edfHeap = new SmartHeap("EDF");
 
             for (Task t : tasks) edfHeap.insert(t);
 
+            // Extract tasks based on earliest deadline
             while (!edfHeap.isEmpty()) {
                 System.out.print(edfHeap.extractNext().name + " -> ");
             }
@@ -178,6 +194,7 @@ public class Main {
 
         }
 
+        // Close scanner
         input.close();
     }
 }
