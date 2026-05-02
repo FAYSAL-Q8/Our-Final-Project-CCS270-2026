@@ -69,10 +69,14 @@ public class SmartHeap {
  * @param index the index of the inserted task
  */
     private void heapifyUp(int index) {
+        // gives the position of the parent
         int parent = (index - 1) / 2;
+
         while (index > 0 && isMoreUrgent(heap.get(index), heap.get(parent))) {
             swap(index, parent);
+            // update the element position
             index = parent;
+            // recalculate the parent because the index changed
             parent = (index - 1) / 2;
         }
     }
@@ -88,9 +92,9 @@ public class SmartHeap {
         int left = 2 * index + 1;
         int right = 2 * index + 2;
 
-        // checks if the left is more urgent
+        // checks if the left is inside the heap and is more urgent
         if (left < heap.size() && isMoreUrgent(heap.get(left), heap.get(smallest))) smallest = left;
-        // checks if the right is more urgent
+        // checks if the left is inside the heap and is more urgent
         if (right < heap.size() && isMoreUrgent(heap.get(right), heap.get(smallest))) smallest = right;
 
         if (smallest != index) {

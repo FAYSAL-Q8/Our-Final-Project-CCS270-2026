@@ -177,7 +177,7 @@ public class Main {
             // Put all tasks inside the heap
             for (Task t : tasks) sjfHeap.insert(t);
 
-            // Extract tasks based on shortest duration
+            // Extract tasks based on shortest duration and print their names
             while (!sjfHeap.isEmpty()) {
                 System.out.print(sjfHeap.extractNext().name + " -> ");
             }
@@ -188,6 +188,7 @@ public class Main {
             // Using heap with EDF strategy
             SmartHeap edfHeap = new SmartHeap("EDF");
 
+            // Put all tasks inside the heap
             for (Task t : tasks) edfHeap.insert(t);
 
             // Extract tasks based on earliest deadline

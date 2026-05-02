@@ -60,7 +60,8 @@ public class SortedArray {
      * @return true if t1 is more urgent than t2; false otherwise.
      */
     private boolean isMoreUrgent(Task t1, Task t2) {
-        if (strategy.equals("SJF")) return t1.duration < t2.duration;
+        if (strategy.equals("SJF"))
+            return t1.duration < t2.duration;
         return t1.deadline < t2.deadline;
     }
 }
