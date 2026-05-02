@@ -88,7 +88,9 @@ public class SmartHeap {
         int left = 2 * index + 1;
         int right = 2 * index + 2;
 
+        // checks if the left is more urgent
         if (left < heap.size() && isMoreUrgent(heap.get(left), heap.get(smallest))) smallest = left;
+        // checks if the right is more urgent
         if (right < heap.size() && isMoreUrgent(heap.get(right), heap.get(smallest))) smallest = right;
 
         if (smallest != index) {
@@ -123,7 +125,7 @@ public class SmartHeap {
  * @param j index of the second task
  */
     private void swap(int i, int j) {
-        // Store the first task temporarily
+        // Store the first task
         Task temp = heap.get(i);
         // Move the second task into the first position
         heap.set(i, heap.get(j));

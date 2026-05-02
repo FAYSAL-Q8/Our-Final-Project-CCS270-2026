@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.Random;
 /**
  * Main scheduler that selects and executes tasks
- * using SJF or EDF algorithms.
+ * using SJF (Shortest Job First) or EDF (Earliest Deadline First) algorithms.
  * It allows the user to test different scheduling strategies (SJF & EDF),
  */
 public class Main {
@@ -102,6 +102,7 @@ public class Main {
                 continue;
             }
 
+            // declare an array
             Task[] tasks;
 
             // User Input
@@ -114,8 +115,10 @@ public class Main {
                 }
                 int n = input.nextInt();
                 // Prevent zero or negative input
-                if (n <= 0) n = 1;
+                if (n <= 0)
+                    n = 1;
 
+                // array with size n
                 tasks = new Task[n];
 
 
@@ -134,7 +137,7 @@ public class Main {
                                 priority.equalsIgnoreCase("Low")) {
                             break; // Input is valid, exit the loop
                         }
-                        System.out.print("Invalid input. Please strictly enter High, Medium, or Low: ");
+                        System.out.print("Invalid input. Please enter High, Medium, or Low: ");
                     }
 
                     // Validate deadline input
@@ -145,7 +148,7 @@ public class Main {
                     }
                     int deadline = input.nextInt();
 
-                    // Validate deadline input
+                    // Validate Duration input
                     System.out.print("Duration: ");
                     while (!input.hasNextInt()) {
                         System.out.print("Invalid input. Please enter a number for Duration: ");
@@ -171,6 +174,7 @@ public class Main {
             // Using heap with SJF strategy
             SmartHeap sjfHeap = new SmartHeap("SJF");
 
+            // Put all tasks inside the heap
             for (Task t : tasks) sjfHeap.insert(t);
 
             // Extract tasks based on shortest duration
